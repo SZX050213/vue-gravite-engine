@@ -19,7 +19,7 @@ export class GravityEngine {
   }
 
   async scanProject(
-    projectRoot: string,
+    _projectRoot: string,
     files: Array<{ path: string; content: string }>
   ): Promise<ScanReport> {
     const start = Date.now();

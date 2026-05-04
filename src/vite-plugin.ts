@@ -5,8 +5,7 @@ import { GravityEngine } from './engine/scanner.js';
 import { formatTerminalReport } from './engine/reporter.js';
 import { createDefaultRegistry } from './rules/index.js';
 import { loadConfig } from './config.js';
-import type { GravityConfig, Finding, ScanReport } from './rules/types.js';
-import pc from 'picocolors';
+import type { GravityConfig, ScanReport } from './rules/types.js';
 
 export interface GravityPluginOptions {
   config?: GravityConfig;

@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { resolve, join } from 'node:path';
+import { join } from 'node:path';
 import type { GravityConfig } from './rules/types.js';
 
 const CONFIG_FILES = [

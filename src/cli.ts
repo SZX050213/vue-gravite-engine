@@ -8,7 +8,7 @@ import { formatTerminalReport, formatJsonReport } from './engine/reporter.js';
 import { createDefaultRegistry } from './rules/index.js';
 import { loadConfig } from './config.js';
 import { generateSkillsMarkdown } from './skills-generator.js';
-import type { GravityConfig, ScanReport } from './rules/types.js';
+import type { ScanReport } from './rules/types.js';
 import pc from 'picocolors';
 
 const program = new Command();
