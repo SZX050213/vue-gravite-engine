@@ -1,0 +1,46 @@
+{
+  "name": "vue-gravity-engine",
+  "version": "1.0.0",
+  "description": "Vue code hallucination detector — catches AI-generated React mixtures, Vue 2 remnants, and anti-patterns",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./vite": {
+      "import": "./dist/vite-plugin.js",
+      "require": "./dist/vite-plugin.cjs",
+      "types": "./dist/vite-plugin.d.ts"
+    }
+  },
+  "bin": {
+    "vue-gravity": "./dist/cli.js"
+  },
+  "files": ["dist", "skills"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "generate-skills": "tsx src/cli.ts generate-skills"
+  },
+  "keywords": ["vue", "vite-plugin", "ai", "hallucination", "code-quality"],
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.4.0",
+    "commander": "^12.0.0",
+    "picocolors": "^1.0.0",
+    "glob": "^10.0.0"
+  }
+}
