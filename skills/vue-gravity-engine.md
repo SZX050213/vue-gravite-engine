@@ -26,7 +26,6 @@
 React Hooks (useState, useEffect, useRef, etc.) should not appear in Vue projects. Vue 3 Composition API provides equivalent primitives: ref(), computed(), watch(), onMounted().
 
 **错误示例：**
-```ts
 ```vue
 <script setup>
 import { useState, useEffect } from "react";
@@ -34,10 +33,8 @@ const [count, setCount] = useState(0);
 useEffect(() => { document.title = `Count: ${count}`; }, [count]);
 </script>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <script setup>
 import { ref, watch, onMounted } from "vue";
@@ -45,7 +42,6 @@ const count = ref(0);
 watch(count, (val) => { document.title = `Count: ${val}`; });
 onMounted(() => { /* ... */ });
 </script>
-```
 ```
 
 ---
@@ -58,20 +54,16 @@ Importing from "react" or "react-dom" in a Vue project indicates a hallucinated 
 
 **错误示例：**
 ```ts
-```ts
 import React from "react";
 import { useState } from "react";
 import ReactDOM from "react-dom";
 ```
-```
 
 **正确示例：**
-```ts
 ```ts
 import { ref, createApp } from "vue";
 import App from "./App.vue";
 createApp(App).mount("#app");
-```
 ```
 
 ---
@@ -83,7 +75,6 @@ createApp(App).mount("#app");
 Vue 2 instance properties and global APIs like this.$listeners, this.$children, this.$set, Vue.extend(), and new Vue() are removed in Vue 3. Use Composition API equivalents.
 
 **错误示例：**
-```ts
 ```js
 const Component = Vue.extend({
   data() { return { items: [] }; },
@@ -93,17 +84,14 @@ const Component = Vue.extend({
 });
 new Vue({ render: h => h(App) }).$mount("#app");
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <script setup>
 import { reactive } from "vue";
 const state = reactive({ items: [] as string[] });
 function addItem() { state.items.unshift("new"); }
 </script>
-```
 ```
 
 ---
@@ -115,7 +103,6 @@ function addItem() { state.items.unshift("new"); }
 Vue 3 removed the filters feature (both Vue.filter() global registration and the pipe | syntax in templates). Use computed properties or helper functions instead.
 
 **错误示例：**
-```ts
 ```vue
 <template>
   <p>{{ message | capitalize }}</p>
@@ -125,10 +112,8 @@ Vue 3 removed the filters feature (both Vue.filter() global registration and the
 Vue.filter("capitalize", (v) => v.toUpperCase());
 </script>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <template>
   <p>{{ capitalize(message) }}</p>
@@ -140,7 +125,6 @@ const formatCurrency = (v: number, c: string) =>
   new Intl.NumberFormat("en", { style: "currency", currency: c }).format(v);
 </script>
 ```
-```
 
 ---
 
@@ -151,16 +135,12 @@ const formatCurrency = (v: number, c: string) =>
 Vue 3 移除了模板中的管道过滤器语法 `{{ value | filter }}`。使用计算属性或方法函数替代。
 
 **错误示例：**
-```ts
 {{ message | uppercase }}
 {{ price | currency("USD") }}
-```
 
 **正确示例：**
-```ts
 {{ uppercase(message) }}
 {{ formatCurrency(price, "USD") }}
-```
 
 ---
 
@@ -171,7 +151,6 @@ Vue 3 移除了模板中的管道过滤器语法 `{{ value | filter }}`。使用
 className is a React-specific attribute. In Vue templates, use the standard HTML class attribute to bind CSS classes.
 
 **错误示例：**
-```ts
 ```vue
 <template>
   <div className="wrapper active">
@@ -179,17 +158,14 @@ className is a React-specific attribute. In Vue templates, use the standard HTML
   </div>
 </template>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <template>
   <div class="wrapper active">
     <span class="text">Hello</span>
   </div>
 </template>
-```
 ```
 
 ---
@@ -201,16 +177,13 @@ className is a React-specific attribute. In Vue templates, use the standard HTML
 Returning JSX elements (especially with capitalized component tags) indicates React-style rendering. Vue projects should use <template> blocks for component markup.
 
 **错误示例：**
-```ts
 ```tsx
 function MyComponent() {
   return <div className="app"><Header /><Content /></div>;
 }
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <template>
   <div class="app">
@@ -218,7 +191,6 @@ function MyComponent() {
     <Content />
   </div>
 </template>
-```
 ```
 
 ## 响应式核心
@@ -231,16 +203,12 @@ Static configuration objects with 3+ keys do not need Vue reactivity. Wrapping t
 
 **错误示例：**
 ```ts
-```ts
 const CONFIG = ref({ apiUrl: 'https://api.example.com', timeout: 5000, retries: 3 })
-```
 ```
 
 **正确示例：**
 ```ts
-```ts
 const CONFIG = Object.freeze({ apiUrl: 'https://api.example.com', timeout: 5000, retries: 3 })
-```
 ```
 
 ---
@@ -253,17 +221,13 @@ Computed properties must be pure — they should only derive and return a value.
 
 **错误示例：**
 ```ts
-```ts
 const doubled = computed(() => { count.value = x.value * 2; return count.value })
-```
 ```
 
 **正确示例：**
 ```ts
-```ts
 const doubled = computed(() => x.value * 2)
 watch(doubled, (val) => { count.value = val })
-```
 ```
 
 ---
@@ -276,16 +240,12 @@ Using reactive() on primitive values (numbers, strings, booleans, null) is unnec
 
 **错误示例：**
 ```ts
-```ts
 const count = reactive(0)
-```
 ```
 
 **正确示例：**
 ```ts
-```ts
 const count = ref(0)
-```
 ```
 
 ---
@@ -298,16 +258,12 @@ Destructuring props directly loses reactivity. The destructured values become pl
 
 **错误示例：**
 ```ts
-```ts
 const { title, count } = props
-```
 ```
 
 **正确示例：**
 ```ts
-```ts
 const { title, count } = toRefs(props)
-```
 ```
 
 ## 模板正确性
@@ -319,19 +275,15 @@ const { title, count } = toRefs(props)
 The v-model:value syntax was deprecated in Vue 3. Use v-model or v-model:argument instead. v-model without an argument defaults to modelValue.
 
 **错误示例：**
-```ts
 ```vue
 <Comp v-model:value="name" />
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <Comp v-model="name" />
 <!-- or -->
 <Comp v-model:modelValue="name" />
-```
 ```
 
 ---
@@ -343,19 +295,15 @@ The v-model:value syntax was deprecated in Vue 3. Use v-model or v-model:argumen
 In Vue 3, v-if has higher priority than v-for on the same element, meaning v-if has no access to the v-for variable. This causes unexpected behavior. Use a <template> wrapper or computed property to filter the list.
 
 **错误示例：**
-```ts
 ```vue
 <li v-for="item in items" v-if="item.active">{{ item.name }}</li>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <template v-for="item in items" :key="item.id">
   <li v-if="item.active">{{ item.name }}</li>
 </template>
-```
 ```
 
 ---
@@ -367,17 +315,13 @@ In Vue 3, v-if has higher priority than v-for on the same element, meaning v-if 
 Every v-for element should have a unique and stable :key attribute. Without it, Vue cannot efficiently track node identity, leading to rendering bugs and poor performance.
 
 **错误示例：**
-```ts
 ```vue
 <li v-for="item in items">{{ item.name }}</li>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <li v-for="item in items" :key="item.id">{{ item.name }}</li>
-```
 ```
 
 ---
@@ -389,20 +333,16 @@ Every v-for element should have a unique and stable :key attribute. Without it, 
 v-html renders raw HTML and introduces XSS (Cross-Site Scripting) risks. Never use v-html with user-supplied content. If you must render HTML, sanitize it with DOMPurify or a similar library.
 
 **错误示例：**
-```ts
 ```vue
 <div v-html="userContent"></div>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <!-- Prefer text interpolation -->
 <div>{{ userContent }}</div>
 <!-- If HTML is required, sanitize first -->
 <div v-html="sanitize(userContent)"></div>
-```
 ```
 
 ---
@@ -414,17 +354,13 @@ v-html renders raw HTML and introduces XSS (Cross-Site Scripting) risks. Never u
 In Vue templates, event names should use kebab-case for consistency with HTML attribute conventions. camelCase event names work but are not idiomatic in templates.
 
 **错误示例：**
-```ts
 ```vue
 <button @onClick="handler">Click</button>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <button @click="handler">Click</button>
-```
 ```
 
 ## 样式与穿透
@@ -436,18 +372,14 @@ In Vue templates, event names should use kebab-case for consistency with HTML at
 The >>>, /deep/, and ::v-deep deep selectors are deprecated in Vue 3. Use the :deep() pseudo-class instead for scoped style penetration.
 
 **错误示例：**
-```ts
 ```vue
 >>> .child { color: red; }
 /deep/ .child { color: red; }
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 :deep(.child) { color: red; }
-```
 ```
 
 ---
@@ -459,21 +391,17 @@ The >>>, /deep/, and ::v-deep deep selectors are deprecated in Vue 3. Use the :d
 Without the scoped or module attribute, styles in a Vue SFC are global and can leak into other components. Use <style scoped> to encapsulate styles.
 
 **错误示例：**
-```ts
 ```vue
 <style>
 .foo { color: red; }
 </style>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <style scoped>
 .foo { color: red; }
 </style>
-```
 ```
 
 ## 性能与架构
@@ -485,24 +413,20 @@ Without the scoped or module attribute, styles in a Vue SFC are global and can l
 Large components are harder to maintain, test, and reason about. This rule is a placeholder for future AST-based line counting. It will not trigger via regex scanning.
 
 **错误示例：**
-```ts
 ```vue
 <!-- Component with 500+ lines -->
 <template>...</template>
 <script>...</script>
 <style>...</style>
 ```
-```
 
 **正确示例：**
-```ts
 ```vue
 <!-- Split into smaller components and composables -->
 <template><SmallWidget /></template>
 <script setup>
 import { useFeature } from "./composables/feature";
 </script>
-```
 ```
 
 ---
@@ -515,23 +439,19 @@ Vue computed properties are synchronous and must return a value immediately. Usi
 
 **错误示例：**
 ```ts
-```ts
 const data = computed(async () => {
   const res = await fetch("/api/data");
   return res.json();
 });
 ```
-```
 
 **正确示例：**
-```ts
 ```ts
 const data = ref(null);
 watch(source, async (val) => {
   const res = await fetch(`/api/data?id=${val}`);
   data.value = await res.json();
 });
-```
 ```
 
 ---
@@ -544,21 +464,17 @@ Async operations in watch callbacks execute after the current microtask queue, w
 
 **错误示例：**
 ```ts
-```ts
 watch(source, async (val) => {
   await fetchData(val);
   // DOM may have already updated
 });
 ```
-```
 
 **正确示例：**
-```ts
 ```ts
 watch(source, async (val) => {
   await fetchData(val);
 }, { flush: "post" });
-```
 ```
 
 

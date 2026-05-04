@@ -59,14 +59,10 @@ function renderCategory(title: string, rules: GravityRule[] | undefined): string
 ${rule.markdown.description}
 
 **错误示例：**
-\`\`\`ts
 ${rule.markdown.wrongExample}
-\`\`\`
 
 **正确示例：**
-\`\`\`ts
 ${rule.markdown.correctExample}
-\`\`\`
 `
     )
     .join('\n---\n\n');
