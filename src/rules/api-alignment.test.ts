@@ -131,13 +131,31 @@ describe('api-no-vue2-filters', () => {
     const filterFindings = findings.filter(f => f.ruleId === 'api-no-vue2-filters');
     expect(filterFindings.length).toBeGreaterThanOrEqual(1);
   });
+});
 
-  it('detects pipe syntax in template', () => {
+describe('template-no-filter-pipe', () => {
+  it('detects pipe syntax in template interpolation', () => {
     const engine = createEngine();
     const code = `<template>\n  <p>{{ value | uppercase }}</p>\n</template>`;
     const findings = engine.scan('App.vue', code);
-    const filterFindings = findings.filter(f => f.ruleId === 'api-no-vue2-filters');
+    const filterFindings = findings.filter(f => f.ruleId === 'template-no-filter-pipe');
     expect(filterFindings.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('does NOT match bitwise OR in TypeScript', () => {
+    const engine = createEngine();
+    const code = `const flags = FLAG_A | FLAG_B`;
+    const findings = engine.scan('utils.ts', code);
+    const filterFindings = findings.filter(f => f.ruleId === 'template-no-filter-pipe');
+    expect(filterFindings).toHaveLength(0);
+  });
+
+  it('does NOT match TypeScript union types', () => {
+    const engine = createEngine();
+    const code = `type Status = 'active' | 'inactive' | 'pending'`;
+    const findings = engine.scan('types.ts', code);
+    const filterFindings = findings.filter(f => f.ruleId === 'template-no-filter-pipe');
+    expect(filterFindings).toHaveLength(0);
   });
 });
 

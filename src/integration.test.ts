@@ -30,7 +30,7 @@ const [list, setList] = useState([])
     const ruleIds = new Set(findings.map(f => f.ruleId));
     expect(ruleIds.has('template-no-classname')).toBe(true);
     expect(ruleIds.has('template-vfor-key')).toBe(true);
-    expect(ruleIds.has('api-no-vue2-filters')).toBe(true);
+    expect(ruleIds.has('template-no-filter-pipe')).toBe(true);
     expect(ruleIds.has('api-no-react-hooks')).toBe(true);
     expect(ruleIds.has('api-no-react-import')).toBe(true);
     expect(ruleIds.has('styles-no-deep-deprecated')).toBe(true);

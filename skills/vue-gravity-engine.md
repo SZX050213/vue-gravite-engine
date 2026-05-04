@@ -144,6 +144,26 @@ const formatCurrency = (v: number, c: string) =>
 
 ---
 
+### No Template Filter Pipe
+
+**严重级别:** error
+
+Vue 3 移除了模板中的管道过滤器语法 `{{ value | filter }}`。使用计算属性或方法函数替代。
+
+**错误示例：**
+```ts
+{{ message | uppercase }}
+{{ price | currency("USD") }}
+```
+
+**正确示例：**
+```ts
+{{ uppercase(message) }}
+{{ formatCurrency(price, "USD") }}
+```
+
+---
+
 ### No className in Vue Templates
 
 **严重级别:** error

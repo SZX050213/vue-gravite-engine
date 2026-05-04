@@ -98,7 +98,6 @@ export const apiAlignmentRules: GravityRule[] = [
       filePatterns: ['*.vue', '*.ts', '*.js'],
       patterns: [
         { type: 'regex', pattern: /\bVue\.filter\s*\(/ },
-        { type: 'regex', pattern: /\|\s*\w+/ },
       ],
     },
     fix: {
@@ -112,6 +111,30 @@ export const apiAlignmentRules: GravityRule[] = [
         '```vue\n<template>\n  <p>{{ message | capitalize }}</p>\n  <span>{{ price | currency("USD") }}</span>\n</template>\n<script>\nVue.filter("capitalize", (v) => v.toUpperCase());\n</script>\n```',
       correctExample:
         '```vue\n<template>\n  <p>{{ capitalize(message) }}</p>\n  <span>{{ formatCurrency(price, "USD") }}</span>\n</template>\n<script setup>\nconst capitalize = (v: string) => v.toUpperCase();\nconst formatCurrency = (v: number, c: string) =>\n  new Intl.NumberFormat("en", { style: "currency", currency: c }).format(v);\n</script>\n```',
+    },
+  },
+  {
+    id: 'template-no-filter-pipe',
+    name: 'No Template Filter Pipe',
+    category: 'api-alignment',
+    severity: 'error',
+    enabled: true,
+    detect: {
+      filePatterns: ['*.vue'],
+      patterns: [
+        { type: 'regex', pattern: /\{\{[^}]*\|\s*\w+/ },
+      ],
+    },
+    fix: {
+      message: '检测到模板管道过滤器语法 — Vue 3 已移除 filters',
+      suggestion: '{{ value | filter }} → {{ filter(value) }}',
+      docsUrl: 'https://v3-migration.vuejs.org/breaking-changes/filters.html',
+    },
+    markdown: {
+      description:
+        'Vue 3 移除了模板中的管道过滤器语法 `{{ value | filter }}`。使用计算属性或方法函数替代。',
+      wrongExample: `{{ message | uppercase }}\n{{ price | currency("USD") }}`,
+      correctExample: `{{ uppercase(message) }}\n{{ formatCurrency(price, "USD") }}`,
     },
   },
   {
