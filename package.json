@@ -40,6 +40,13 @@
     "code-quality"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SZX050213/vue-gravite-engine.git"
+  },
   "devDependencies": {
     "@types/node": "^25.6.0",
     "tsup": "^8.0.0",
