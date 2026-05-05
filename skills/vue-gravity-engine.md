@@ -135,12 +135,16 @@ const formatCurrency = (v: number, c: string) =>
 Vue 3 移除了模板中的管道过滤器语法 `{{ value | filter }}`。使用计算属性或方法函数替代。
 
 **错误示例：**
+```
 {{ message | uppercase }}
 {{ price | currency("USD") }}
+```
 
 **正确示例：**
+```
 {{ uppercase(message) }}
 {{ formatCurrency(price, "USD") }}
+```
 
 ---
 
@@ -192,7 +196,6 @@ function MyComponent() {
   </div>
 </template>
 ```
-
 ## 响应式核心
 
 ### No Static Ref
@@ -265,7 +268,6 @@ const { title, count } = props
 ```ts
 const { title, count } = toRefs(props)
 ```
-
 ## 模板正确性
 
 ### No v-model:value
@@ -362,7 +364,6 @@ In Vue templates, event names should use kebab-case for consistency with HTML at
 ```vue
 <button @click="handler">Click</button>
 ```
-
 ## 样式与穿透
 
 ### No Deprecated Deep Selector
@@ -403,33 +404,7 @@ Without the scoped or module attribute, styles in a Vue SFC are global and can l
 .foo { color: red; }
 </style>
 ```
-
 ## 性能与架构
-
-### No Large Component
-
-**严重级别:** info
-
-Large components are harder to maintain, test, and reason about. This rule is a placeholder for future AST-based line counting. It will not trigger via regex scanning.
-
-**错误示例：**
-```vue
-<!-- Component with 500+ lines -->
-<template>...</template>
-<script>...</script>
-<style>...</style>
-```
-
-**正确示例：**
-```vue
-<!-- Split into smaller components and composables -->
-<template><SmallWidget /></template>
-<script setup>
-import { useFeature } from "./composables/feature";
-</script>
-```
-
----
 
 ### No Async in Computed
 
@@ -476,7 +451,6 @@ watch(source, async (val) => {
   await fetchData(val);
 }, { flush: "post" });
 ```
-
 
 ## 不可妥协的底线
 

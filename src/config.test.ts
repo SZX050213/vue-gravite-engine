@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { loadConfig } from './config.js';
-import type { GravityConfig } from './rules/types.js';
+import type { GravityConfig } from './types.js';
 
 describe('loadConfig', () => {
   beforeEach(() => {

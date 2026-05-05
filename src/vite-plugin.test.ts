@@ -6,7 +6,6 @@ describe('vue-gravity-engine vite plugin', () => {
     const plugin = vueGravityEngine();
     expect(plugin.name).toBe('vue-gravity-engine');
     expect(typeof plugin.handleHotUpdate).toBe('function');
-    expect(typeof plugin.buildEnd).toBe('function');
   });
 
   it('accepts custom options', () => {

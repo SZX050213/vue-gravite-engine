@@ -1,4 +1,4 @@
-import type { ScanReport, Finding } from '../rules/types.js';
+import type { ScanReport, Finding } from '../types.js';
 import pc from 'picocolors';
 
 export function formatTerminalReport(report: ScanReport): string {

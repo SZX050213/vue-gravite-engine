@@ -1,6 +1,14 @@
-export interface PatternMatch {
-  type: 'regex';
-  pattern: RegExp;
+export interface GravityRule {
+  id: string;
+  name: string;
+  category: 'api-alignment' | 'reactivity' | 'template' | 'styles' | 'performance';
+  severity: 'error' | 'warning' | 'info';
+  enabled: boolean;
+  filePatterns: string[];
+  patterns: RegExp[];
+  message: string;
+  suggestion: string;
+  docsUrl?: string;
 }
 
 export interface Finding {
@@ -14,29 +22,6 @@ export interface Finding {
   docsUrl?: string;
   fixable: boolean;
   matchedText: string;
-}
-
-export interface GravityRule {
-  id: string;
-  name: string;
-  category: 'api-alignment' | 'reactivity' | 'template' | 'styles' | 'performance';
-  severity: 'error' | 'warning' | 'info';
-  enabled: boolean;
-  detect: {
-    filePatterns: string[];
-    patterns: PatternMatch[];
-    astCheck?: (content: string) => Finding[];
-  };
-  fix: {
-    message: string;
-    suggestion: string;
-    docsUrl?: string;
-  };
-  markdown: {
-    description: string;
-    wrongExample: string;
-    correctExample: string;
-  };
 }
 
 export interface RuleOverride {

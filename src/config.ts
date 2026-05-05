@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import type { GravityConfig } from './rules/types.js';
+import type { GravityConfig } from './types.js';
 
 const CONFIG_FILES = [
   'gravity.config.ts',

@@ -1,0 +1,62 @@
+{
+  "name": "vue-gravity-engine",
+  "version": "1.0.1",
+  "description": "Vue code hallucination detector — catches AI-generated React mixtures, Vue 2 remnants, and anti-patterns",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./vite": {
+      "types": "./dist/vite-plugin.d.ts",
+      "import": "./dist/vite-plugin.js",
+      "require": "./dist/vite-plugin.cjs"
+    }
+  },
+  "bin": {
+    "vue-gravity": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "generate-skills": "tsx src/cli.ts generate-skills"
+  },
+  "keywords": [
+    "vue",
+    "vite-plugin",
+    "ai",
+    "hallucination",
+    "code-quality"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SZX050213/vue-gravite-engine.git"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "minimatch": "^10.2.5",
+    "picocolors": "^1.0.0"
+  }
+}

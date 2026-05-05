@@ -3,13 +3,11 @@ import { readFileSync } from 'node:fs';
 import { relative } from 'node:path';
 import { GravityEngine } from './engine/scanner.js';
 import { formatTerminalReport } from './engine/reporter.js';
-import { createDefaultRegistry } from './rules/index.js';
 import { loadConfig } from './config.js';
-import type { GravityConfig, ScanReport } from './rules/types.js';
+import type { GravityConfig, ScanReport } from './types.js';
 
 export interface GravityPluginOptions {
   config?: GravityConfig;
-  /** Disable the plugin entirely */
   disabled?: boolean;
 }
 
@@ -23,8 +21,7 @@ export default function vueGravityEngine(options?: GravityPluginOptions): Plugin
     async configResolved(config) {
       projectRoot = config.root;
       const userConfig = options?.config ?? (await loadConfig(projectRoot));
-      const registry = createDefaultRegistry(userConfig);
-      engine = new GravityEngine(registry);
+      engine = new GravityEngine(userConfig);
     },
 
     handleHotUpdate({ file, server }) {
@@ -41,7 +38,6 @@ export default function vueGravityEngine(options?: GravityPluginOptions): Plugin
       const warnings = findings.filter(f => f.severity === 'warning');
       const infos = findings.filter(f => f.severity === 'info');
 
-      // Errors: block HMR, send to browser overlay
       if (errors.length > 0) {
         const report: ScanReport = {
           timestamp: new Date().toISOString(),
@@ -52,18 +48,11 @@ export default function vueGravityEngine(options?: GravityPluginOptions): Plugin
         };
         server.ws.send('gravity:error', {
           message: formatTerminalReport(report),
-          errors: errors.map(e => ({
-            file: e.file,
-            line: e.line,
-            message: e.message,
-            suggestion: e.suggestion,
-          })),
+          errors: errors.map(e => ({ file: e.file, line: e.line, message: e.message, suggestion: e.suggestion })),
         });
-        // Block HMR update
         return [];
       }
 
-      // Warnings/infos: log to terminal only
       if (warnings.length > 0 || infos.length > 0) {
         const report: ScanReport = {
           timestamp: new Date().toISOString(),
@@ -74,11 +63,6 @@ export default function vueGravityEngine(options?: GravityPluginOptions): Plugin
         };
         server.config.logger.warn(formatTerminalReport(report));
       }
-    },
-
-    buildEnd() {
-      if (options?.disabled) return;
-      // Build-time scan is handled by the CLI or build hook
     },
   };
 }
